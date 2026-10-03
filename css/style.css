@@ -45,7 +45,7 @@
 
 
 
-body {
+.page {
   margin: 0;
   font-family: Arial, sans-serif;
   line-height: 1.5;
@@ -53,17 +53,17 @@ body {
   background-color: var(--color-bg);
 }
 
-header,
-main,
-footer {
+.site-header,
+.page__main,
+.site-footer {
   padding: var(--space-lg);
 }
 
-header {
+.site-header {
   background-color: var(--color-border);
 }
 
-footer {
+.site-footer {
   background-color: var(--color-grey);
 }
 
@@ -85,12 +85,12 @@ a:focus-visible {
 }
 
 
-.site-header {
+.site-header__inner {
   max-width: var(--container-width);
   margin: 0 auto;
 }
 
-.site-logo {
+.site-header__logo {
   font-weight: bold;
   text-decoration: none;
   color: var(--color-text);
@@ -107,11 +107,11 @@ a:focus-visible {
   list-style: none;
 }
 
-.site-nav__list li {
+.site-nav__item {
   margin-bottom: var(--space-sm);
 }
 
-.site-nav__list a {
+.site-nav__link {
   display: inline-block;
   padding: var(--space-sm) var(--space-md);
   color: var(--color-primary);
@@ -120,7 +120,8 @@ a:focus-visible {
 
 }
 
-.site-nav__list a:hover {
+.site-nav__link:hover,
+.site-nav__link--active {
   color: var(--color-white);
   background-color: var(--color-primary);
 
@@ -145,7 +146,7 @@ a:focus-visible {
 }
 
 
-.section h2 {
+.section__title {
   margin-top: 0;
 }
 
@@ -153,7 +154,7 @@ a:focus-visible {
 .product-card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);  
+  gap: var(--space-sm);
   margin-bottom: var(--space-md);
   padding: var(--space-md);
   border: 1px solid var(--color-border);
@@ -161,7 +162,7 @@ a:focus-visible {
   background-color: var(--color-bg);
 }
 
-.product-card .button {
+.product-card__button {
   margin-top: auto;
   align-self: flex-start;
 }
@@ -172,26 +173,39 @@ a:focus-visible {
 }
 
 
-.product-card h3 {
+.product-card__title {
   margin-top: 0;
 }
 
 .button {
   display: inline-block;
   padding: var(--space-sm) var(--space-md);
-  color: var(--color-white);
-  background-color: var(--color-primary);
   text-decoration: none;
   border: none;
   border-radius: var(--radius-sm);
   cursor: pointer;
 }
 
-/*
-  Простое состояние наведения для кнопки.
-*/
-.button:hover {
+/* Основной и второстепенный варианты кнопки. */
+.button--primary {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+.button--primary:hover {
+  color: var(--color-white);
   background-color: var(--color-primary-dark);
+}
+
+.button--secondary {
+  color: var(--color-primary);
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+}
+
+.button--secondary:hover {
+  color: var(--color-white);
+  background-color: var(--color-primary);
 }
 
 .button:focus-visible {
@@ -231,9 +245,11 @@ a:focus-visible {
   border-radius: var(--radius-lg);
 }
 
-/*
-  Затемнение фона за модальным окном.
-*/
+.order-dialog__title {
+  margin-top: 0;
+}
+
+/* Затемнение фона за модальным окном. */
 .order-dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -242,14 +258,14 @@ a:focus-visible {
   Поле формы.
   Каждый блок получает нижний отступ.
 */
-.form-field {
+.order-form__field {
   margin-bottom: var(--space-md);
 }
 
 /*
   Подпись поля.
 */
-.form-field label {
+.order-form__label {
   display: block;
   margin-bottom: 6px;
 }
@@ -257,9 +273,9 @@ a:focus-visible {
 /*
   Основные поля формы.
 */
-.form-field input,
-.form-field select,
-.form-field textarea {
+.order-form__input,
+.order-form__select,
+.order-form__textarea {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--color-border);
@@ -270,22 +286,22 @@ a:focus-visible {
 /*
   Checkbox не должен занимать всю ширину.
 */
-.form-field input[type="checkbox"] {
+.order-form__input--checkbox {
   width: auto;
 }
 
 /*
   Подсказка под полем телефона.
 */
-.form-field small {
+.order-form__hint {
   display: block;
   margin-top: var(--space-xs);
   color: var(--color-muted);
 }
 
-.form-field input:hover,
-.form-field select:hover,
-.form-field textarea:hover {
+.order-form__input:hover,
+.order-form__select:hover,
+.order-form__textarea:hover {
   border-color: var(--color-primary);
 }
 
@@ -293,10 +309,9 @@ a:focus-visible {
 /*
   Видимый фокус для клавиатурной навигации.
 */
-.form-field input:focus-visible,
-.form-field select:focus-visible,
-.form-field textarea:focus-visible,
-.form-actions button:focus-visible {
+.order-form__input:focus-visible,
+.order-form__select:focus-visible,
+.order-form__textarea:focus-visible {
   outline: var(--space-xss) solid var(--color-primary);
   outline-offset: 3px;
 }
@@ -305,14 +320,16 @@ a:focus-visible {
   Подсветка ошибочных полей.
   Атрибут aria-invalid будет добавляться через JavaScript.
 */
-[aria-invalid="true"] {
+.order-form__input[aria-invalid="true"],
+.order-form__select[aria-invalid="true"],
+.order-form__textarea[aria-invalid="true"] {
   border-color: var(--color-danger);
 }
 
 /*
   Кнопки формы.
 */
-.form-actions {
+.order-form__actions {
   display: flex;
   gap: var(--space-md);
   margin-top: var(--space-lg);
@@ -338,11 +355,11 @@ a:focus-visible {
   color: var(--color-muted);
 }
 
-.breadcrumbs a {
+.breadcrumbs__link {
   color: var(--color-primary);
 }
 
-.breadcrumbs span::before {
+.breadcrumbs__current::before {
   content: " / ";
   color: var(--color-muted);
 }
@@ -382,7 +399,7 @@ html{
   background-color: var(--color-surface);
 }
 
-.catalog-products {
+.catalog-layout__products {
   grid-area: products;
 }
 
@@ -392,23 +409,23 @@ html{
   gap: var(--space-md);
 }
 
-.filters-form fieldset {
+.filters-form__group {
   margin: 0;
   padding: var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
 }
 
-.filters-form legend {
+.filters-form__legend {
   font-weight: 700;
 }
 
-.filters-form label {
+.filters-form__label {
   display: block;
   margin-bottom: var(--space-sm);
 }
 
-.filters-form input[type="number"] {
+.filters-form__input {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid var(--color-border);
